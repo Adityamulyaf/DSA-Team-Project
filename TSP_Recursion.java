@@ -1,7 +1,3 @@
-// Java program to find the shortest possible route
-// that visits every city exactly once and returns to
-// the starting point using memoization and bitmasking
-
 import java.util.*;
 
 public class TSP_Recursion {
@@ -10,20 +6,20 @@ public class TSP_Recursion {
     static int[][] bestPath;
     static String[] cityNames;
 
-    // Recursive TSP with memoization and path tracking
+    static int INF = (int) 1e9;
+
     static int totalCost(int mask, int pos, int n, int[][] cost) {
-        // Base case: all cities visited, return to start
         if (mask == (1 << n) - 1) {
-            return cost[pos][0];
+            return cost[pos][0] == INF ? INF : cost[pos][0];
         }
 
         if (memo[pos][mask] != -1) return memo[pos][mask];
 
-        int ans = Integer.MAX_VALUE;
+        int ans = INF;
         int nextCity = -1;
 
         for (int i = 0; i < n; i++) {
-            if ((mask & (1 << i)) == 0) {
+            if ((mask & (1 << i)) == 0 && cost[pos][i] != INF) {
                 int newMask = mask | (1 << i);
                 int temp = cost[pos][i] + totalCost(newMask, i, n, cost);
                 if (temp < ans) {
@@ -38,7 +34,6 @@ public class TSP_Recursion {
         return ans;
     }
 
-    // Reconstruct the route from bestPath table
     static List<Integer> reconstructPath(int n) {
         List<Integer> path = new ArrayList<>();
         int mask = 1;
@@ -48,7 +43,7 @@ public class TSP_Recursion {
 
         while (true) {
             int next = bestPath[pos][mask];
-            if (next == -1 || steps++ > n) break; // prevent infinite loop
+            if (next == -1 || steps++ > n) break;
             path.add(next);
             mask |= (1 << next);
             pos = next;
@@ -59,16 +54,23 @@ public class TSP_Recursion {
     }
 
     public static void main(String[] args) {
+        int INF = (int) 1e9;
+
         int[][] cost = {
-            { 0, 10, 100, 20, 56 },
-            { 10, 0, 35, 25, 21 },
-            { 100, 35, 0, 30, 12 },
-            { 20, 25, 30, 0, 12 },
-            { 56, 21, 12, 12, 0 }
+            // PG,   RB,   RJ,   IS,   KS,   ISu,  TA
+            {  0,   41,   74,   27, INF, INF, INF }, // Pasar Gede
+            { 41,    0,   86, INF,  79, INF, INF }, // Rendra Buah
+            { 74,   86,    0,  57, 110, 110,  91 }, // Raja Buah
+            { 27, INF,   57,   0, INF, 112, INF },  // Istana Buah Srikandi
+            {INF,  79,  110, INF,   0, INF,  82 },  // Kios Buah Segar
+            {INF, INF,  110, 112, INF,   0, 183 },  // Istana Buah Sukoharjo
+            {INF, INF,   91, INF,  82, 183,   0 }   // Toko Buah ABC Karanganyar
         };
 
         cityNames = new String[] {
-            "Toko A", "Toko B", "Toko C", "Toko D", "Toko E"
+            "Pasar Gede", "Rendra Buah", "Raja Buah",
+            "Istana Buah Srikandi", "Kios Buah Segar",
+            "Istana Buah Sukoharjo", "Toko Buah ABC Karanganyar"
         };
 
         int n = cost.length;
