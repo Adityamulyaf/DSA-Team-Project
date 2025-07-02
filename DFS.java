@@ -10,14 +10,14 @@ public class DFS {
     // Fungsi pencarian file menggunakan algoritma DFS
     public static boolean search(
             File current,                                  // File atau direktori saat ini yang sedang diproses
-            String targetFilePattern,                       // Pola nama file yang dicari (bisa wildcard *)
-            boolean findAll,                                // Jika true, cari semua file. Jika false, stop di file pertama ketemu
-            Map<String, TreeNodeData> nodeMap,               // Struktur tree yang sudah dibangun sebelumnya (untuk simulasi visualisasi)
-            Set<String> visitedPaths,                       // Menyimpan path yang sudah dikunjungi
-            List<String> traversalOrder,                    // Menyimpan urutan traversal (untuk log atau visualisasi)
-            Set<String> foundFiles,                         // Menyimpan hasil file yang ditemukan
-            Consumer<String> statusUpdater,                 // Callback untuk update status (misal ke GUI)
-            long searchStartTime                            // Waktu pencarian dimulai (untuk menghitung durasi)
+            String targetFilePattern,                      // Pola nama file yang dicari (bisa wildcard *)
+            boolean findAll,                               // Jika true, cari semua file. Jika false, stop di file pertama ketemu
+            Map<String, TreeNodeData> nodeMap,             // Struktur tree yang sudah dibangun sebelumnya (untuk simulasi visualisasi)
+            Set<String> visitedPaths,                      // Menyimpan path yang sudah dikunjungi
+            List<String> traversalOrder,                   // Menyimpan urutan traversal (untuk log atau visualisasi)
+            Set<String> foundFiles,                        // Menyimpan hasil file yang ditemukan
+            Consumer<String> statusUpdater,                // Callback untuk update status (misal ke GUI)
+            long searchStartTime                           // Waktu pencarian dimulai (untuk menghitung durasi)
     ) throws InterruptedException {
 
         // Kondisi berhenti jika mode findAll false dan file sudah ditemukan
